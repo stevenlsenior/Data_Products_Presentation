@@ -1,0 +1,10 @@
+base
+classInt
+dplyr
+ggplot2
+knitr
+shiny
+slidify
+slidifyLibraries
+stringr
+XML
