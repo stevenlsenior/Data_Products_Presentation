@@ -19,15 +19,13 @@ knit        : slidify::knit2slides
 .title-slide hgroup > h1{
  font-family: 'Baskerville', 'Times', serif; 
  font-weight: normal;
- color: #000 ;  /* ; #EF5150*/
-
 }
 
 .title-slide hgroup > h1, 
 .title-slide hgroup > h2 {
   font-family: 'Baskerville';
   font-weight: normal;
-  color: #666 ;  /* ; #EF5150*/
+  color: #000;  /* ; #EF5150*/
 }
 
 article p, article li, article li.build, section p, section li{
@@ -78,7 +76,7 @@ Finally, I've turned this into a Shiny app. The app allows the user to select wh
 
 ## Example: Barnsley
 
-The plot below illustrates the graphical output from the local authority area where I grew up for both male and female sexes.
+The plot below illustrates the graphical output from app for the local authority area where I grew up for both male and female sexes. Yeah, we like a drink.
 
 ![plot of chunk unnamed-chunk-1](assets/fig/unnamed-chunk-1.png) 
 
