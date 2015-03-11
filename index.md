@@ -76,7 +76,9 @@ Finally, I've turned this into a Shiny app. The app allows the user to select wh
 
 ## Example: Barnsley
 
-The plot below illustrates the graphical output from app for the local authority area where I grew up for both male and female sexes. Yeah, we like a drink.
+The plot below illustrates the graphical output from app for the local authority area where I grew up for both male and female sexes. Yeah, we like a drink. 
+
+(I have hidden the R code for simplicity, if you're interested, it's [here](https://raw.githubusercontent.com/stevenlsenior/Data_Products_Presentation/gh-pages/index.Rmd))
 
 ![plot of chunk unnamed-chunk-1](assets/fig/unnamed-chunk-1.png) 
 
