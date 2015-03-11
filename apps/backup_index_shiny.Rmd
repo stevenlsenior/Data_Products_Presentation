@@ -1,58 +1,58 @@
 ---
-title       : Visualising alcohol-related hospital admissions in English local authorities
+	title       : Visualising alcohol-related hospital admissions in English local authorities
 subtitle    : Created for the 'developing data products' Coursera
 author      : Steven Senior
 job         : 
-framework   : io2012      	# {io2012, html5slides, shower, dzslides, ...}
+	framework   : io2012      	# {io2012, html5slides, shower, dzslides, ...}
 highlighter : highlight.js  	# {highlight.js, prettify, highlight}
 hitheme     : tomorrow      	# 
 widgets     : [shiny, interactive, bootstrap]   # {mathjax, quiz, bootstrap}
-mode        : selfcontained # {standalone, draft}
+mode        : standalone # {standalone, draft}
 knit        : slidify::knit2slides
 ---
-
-<style>
-.title-slide {
-  background-color: #FFFFFF; /* #EDE0CF; ; #CA9F9D*/
-}
+	
+	<style>
+	.title-slide {
+		background-color: #FFFFFF; /* #EDE0CF; ; #CA9F9D*/
+	}
 
 .title-slide hgroup > h1{
- font-family: 'Baskerville', 'Times', serif; 
- font-weight: normal;
+	font-family: 'Baskerville', 'Times', serif; 
+	font-weight: light;
 }
 
 .title-slide hgroup > h1, 
 .title-slide hgroup > h2 {
-  font-family: 'Baskerville';
-  font-weight: normal;
-  color: #000 ;  /* ; #EF5150*/
+	font-family: 'Baskerville';
+	font-weight: normal;
+	color: #535E43 ;  /* ; #EF5150*/
 }
 
 article p, article li, article li.build, section p, section li{
-  font-family: 'Baskerville','Crimson Text', 'Garamond',  'Palatino', sans-serif;
-  text-align: justify;
-  font-size:22px;
-  line-height: 1.5em;
-  color: #000;
+	font-family: 'Baskerville','Crimson Text', 'Garamond',  'Palatino', sans-serif;
+	text-align: justify;
+	font-size:22px;
+	line-height: 1.5em;
+	color: #444;
 }
 
 slide:not(.segue) h2{
-  font-family: 'Baskerville', Arial, sans-serif;
-  font-size: 52px;
-  font-style: normal;
-  font-weight: normal;
-  text-transform: normal;
-  letter-spacing: -2px;
-  line-height: 1.2em;
-/*  color: #193441;*/
-/*  color: #02574D;*/
-  color: #666;
+	font-family: 'Baskerville', Arial, sans-serif;
+	font-size: 52px;
+	font-style: normal;
+	font-weight: normal;
+	text-transform: normal;
+	letter-spacing: -2px;
+	line-height: 1.2em;
+	/*  color: #193441;*/
+		/*  color: #02574D;*/
+		color: #333333;
 }
 </style>
-
-## Available is not the same as accessible
-
-* In the past few years there has been a push to make government data open and available on the web. Following the US lead, the UK Government created data.gov.uk. There is now a wealth of data relevant to public policy available there.
+	
+	## Available is not the same as accessible
+	
+	* In the past few years there has been a push to make government data open and available on the web. Following the US lead, the UK Government created data.gov.uk. There is now a wealth of data relevant to public policy available there.
 
 * But just because the data is on the web, doesn't make it accessible to the public. Most people don't spend a lot of time poking around dry spreadsheets on government websites. There is a need for simple, engaging visualisations of this data to draw attention to it and to make it more meaningful for the public.
 
@@ -74,41 +74,30 @@ Finally, I've turned this into a Shiny app. The app allows the user to select wh
 
 --- .class #id
 
-## Example: Barnsley
+## Demo
 
-The plot below illustrates the graphical output from the local authority area where I grew up for both male and female sexes.
-
-```{r, echo=FALSE, warning=FALSE, message=FALSE, fig.height=6, fig.width=10}
-
-library(ggplot2)
-
+```{r opts.label = 'shiny'}
 d <- read.csv("alcohol_related_admissions.csv", stringsAsFactors = FALSE)
 
-## Set variables for plotting
-la <- "Barnsley"
-la_val <- d$admissions_per_100000[d$local_authority == la]
-admissions <- d$admissions_per_100000
+slidifyUI(
+sidebarPanel(
+selectInput("la", "Local authority:", choices = d$local_authority),
+selectInput("sex", "Choose sex to view data for:", 
+choices = c("both", "female", "male")
+)
+),
 
-# Set colours for top, middle and bottom thirds of distribution
-cols <- c("darkgreen", "orange", "red")
-
-# Set line colour on whether la_val is top, middle or bottom third
-breaks <- classIntervals(admissions, n=3, style="quantile")
-line_col <- cols[findInterval(la_val, breaks$brks)]
-
-# Make density plot
-dd <- with(density(admissions), data.frame(x,y))
-g <- ggplot(dd, aes(x = x, y = y))
-p <- g + geom_line(color = "black")  +
-	layer(data = dd, mapping = aes(x = ifelse(x < la_val, x, la_val), y = y), 
-		geom = "area", 
-		geom_params = list(fill = line_col,alpha = .3)) +
-	scale_y_continuous(limits = c(0,max(dd$y)), name="") +
-	geom_vline(aes(xintercept = la_val), color = line_col, linetype="dashed") +
-	scale_x_continuous(name = "Alcohol-related admissions per 100,000 population") + 
-	theme_classic()
-print(p)
-
+mainPanel(
+plotOutput("myPlot"),
+h3("Summary of output:"),
+h4("Local Authority:"),
+verbatimTextOutput("Text1"),
+h4("Alcohol-related hospital admissions per 100,000 people:"),
+verbatimTextOutput("Text2"),
+h4("% of local authorities that are better than your area:"),
+verbatimTextOutput("Text3")
+)
+)
 ```
 
 --- .class #id
@@ -127,7 +116,5 @@ Some examples of people who could be interested in this sort of data include:
 I plan to keep building interactive visualisations of open government data. This will build up a library of apps that users could browse by category. Hopefully this will go a small way to making this data more accessible.
 
 Thanks for reading!
-
-[Link to the app on shinyapps.io](https://stevenlsenior.shinyapps.io/Data_Products/)
 
 
